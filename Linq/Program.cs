@@ -1,13 +1,15 @@
-﻿using Linq.Intro;
+﻿using LinqClass.Word;
 
-namespace Linq
+namespace LinqClass
 {
     class Program
     {
         static void Main(string[] args)
         {
-            IntroUser user = new();
-            user.IntroShow();
+            WordUser user = new();
+            user.WordShow();
+
+
         }
     }
 }
