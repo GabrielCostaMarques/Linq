@@ -17,7 +17,19 @@
 
 
 
+            //jeito sem linq
+            foreach (var item in list)
+            {
+                foreach (char letra in item)
+                {
+                    if (letra=='a')
+                    {
+                        count += 1;
 
+                    }
+                }
+            }
+            Console.WriteLine(count);
 
         }
     }

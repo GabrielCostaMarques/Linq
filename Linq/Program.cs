@@ -1,4 +1,5 @@
-﻿using LinqClass.Word;
+﻿using LinqClass.DemoLinq;
+using LinqClass.Word;
 
 namespace LinqClass
 {
@@ -6,8 +7,8 @@ namespace LinqClass
     {
         static void Main(string[] args)
         {
-            WordUser user = new();
-            user.WordShow();
+            DemoLinqUser user = new();
+            user.DemoLinqShow();
 
 
         }
