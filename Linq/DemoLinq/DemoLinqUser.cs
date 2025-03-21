@@ -4,7 +4,8 @@ namespace LinqClass.DemoLinq
 {
     class DemoLinqUser
     {
-        static void Print<T>(string message, IEnumerable<T> collection) {
+        static void Print<T>(string message, IEnumerable<T> collection)
+        {
             Console.WriteLine(message);
 
             foreach (T item in collection)
@@ -37,34 +38,83 @@ namespace LinqClass.DemoLinq
 
             var r1 = products.Where(p => p.Category.Tier == 1 && p.Price < 900.0);
 
-            var r2 = products.Where(p => p.Category.Name == "Tools").Select(n=>n.Name);
+            var r2 = products.Where(p => p.Category.Name == "Tools").Select(n => n.Name);
 
 
             //Mapeando produtos que começam com C porém limitando o que vai ser impresso, nesse caso Nome, Preço e nome da categoria, o compilador nao aceita o obj com o mesmo nome, entao tem que dar um "apelido" para ele, no caso foi o "CategoryName, também foi criado um obj anônimo (n=> new{})
-            var r3 = products.Where(p => p.Name.Contains("C")).Select(n => new {n.Name,n.Price, CategoryName= n.Category.Name});
+            var r3 = products
+                .Where(p => p.Name.Contains("C"))
+                .Select(n => new
+                { n.Name, n.Price, CategoryName = n.Category.Name });
 
-            var r4 = products.Where(p => p.Category.Tier == 1).OrderBy(o => o.Price).ThenBy(o => o.Name);
+            var r4 = products
+                .Where(p => p.Category.Tier == 1)
+                .OrderBy(o => o.Price)
+                .ThenBy(o => o.Name);
 
             //pula dois e pega os 4 da lista
-            var r5 =r4.Skip(2).Take(4);
+            var r5 = r4.Skip(2).Take(4);
 
             //pega o primeiro elemento e se a lista vier vazia, ele retorna null e ñão uma exceção
-            var r6 = products.Where(p=>p.Price>3000);
-            var r7 = r6.FirstOrDefault();
+            var r6 = products
+                .Where(p => p.Price > 3000)
+                .Select(p => p.Name).SingleOrDefault();
+
+
 
             //Pega o unico elemento da lista, se for false, retorna null
-            var r8 = products.Where(p => p.Id == 3).SingleOrDefault();
+            var r8 = products
+                .Where(p => p.Id == 3)
+                .SingleOrDefault();
 
-            var r9 = products.Where(p => p.Id == 30).SingleOrDefault();
+            var r9 = products
+                .Where(p => p.Id == 30)
+                .SingleOrDefault();
 
-            Print("Tier 1 and Price <900: ",r1);
-            Print("Name tools catergory: ",r2);
-            Print("Name products start c: ",r3);
-            Print("tier 1 and order by Price then name: ",r4);
-            Print("tier 1 and order by Price then name Skip 2 take 4: ",r5);
-            Console.WriteLine("First teste 1: "+r6);
-            Console.WriteLine("Single or Default: "+r8);
-            Console.WriteLine("Single or Default: "+r9);
+
+            // Agrupa as categoria, seleciona o name da categoria, o key ele serve para pegar o nome da categoria e o produto
+            var r10 = products
+                .GroupBy(p => p.Category)
+                .Select(o =>
+                new
+                {
+                    CategoryName = o.Key.Name,
+                    Count = o.Count()
+                });
+
+
+
+            //soma todos os produtos com a categoria computers
+            var r11 = products
+                .Where(p => p.Category.Name == "Computers")
+                .Sum(p=>p.Price);
+            
+
+            //media de todos os produtos de uma categoria
+            var r12 = products
+                .Where(p => p.Category.Name == "Computers")
+                .Average(p=>p.Price);
+
+            //pegando menor e maior valor
+            string r13 = $"Menor preço: ${products.Min(p => p.Price)}, Maior preço: ${products.Max(p => p.Price)}";
+
+
+            Print("Tier 1 and Price <900: ", r1);
+            Print("Name tools catergory: ", r2);
+            Print("Name products start c: ", r3);
+            Print("tier 1 and order by Price then name: ", r4);
+            Print("tier 1 and order by Price then name Skip 2 take 4: ", r5);
+            Console.WriteLine("First teste 1: " + r6);
+            Console.WriteLine("Single or Default: " + r8);
+            Console.WriteLine("Single or Default: " + r9);
+            foreach (var item in r10)
+            {
+                Console.WriteLine($"Categoria: {item.CategoryName}, Quantidade: {item.Count}");
+            }
+
+            Console.WriteLine(r11);
+            Console.WriteLine(r12);
+            Console.WriteLine(r13);
         }
     }
 }
