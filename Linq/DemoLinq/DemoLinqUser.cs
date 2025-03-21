@@ -47,6 +47,7 @@ namespace LinqClass.DemoLinq
                 .Select(n => new
                 { n.Name, n.Price, CategoryName = n.Category.Name });
 
+
             var r4 = products
                 .Where(p => p.Category.Tier == 1)
                 .OrderBy(o => o.Price)
@@ -54,6 +55,7 @@ namespace LinqClass.DemoLinq
 
             //pula dois e pega os 4 da lista
             var r5 = r4.Skip(2).Take(4);
+
 
             //pega o primeiro elemento e se a lista vier vazia, ele retorna null e ñão uma exceção
             var r6 = products
@@ -66,6 +68,7 @@ namespace LinqClass.DemoLinq
             var r8 = products
                 .Where(p => p.Id == 3)
                 .SingleOrDefault();
+
 
             var r9 = products
                 .Where(p => p.Id == 30)
@@ -98,6 +101,13 @@ namespace LinqClass.DemoLinq
             //pegando menor e maior valor
             string r13 = $"Menor preço: ${products.Min(p => p.Price)}, Maior preço: ${products.Max(p => p.Price)}";
 
+            //todos os preços somados
+            var r14 = products
+                .Select(p => p.Price)
+                .Aggregate((acummulator, currentValue) => acummulator + currentValue);
+
+
+
 
             Print("Tier 1 and Price <900: ", r1);
             Print("Name tools catergory: ", r2);
@@ -115,6 +125,7 @@ namespace LinqClass.DemoLinq
             Console.WriteLine(r11);
             Console.WriteLine(r12);
             Console.WriteLine(r13);
+            Console.WriteLine("all products Agregrate sum: "+r14);
         }
     }
 }
