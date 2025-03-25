@@ -108,7 +108,6 @@ namespace LinqClass.DemoLinq
 
 
 
-
             Print("Tier 1 and Price <900: ", r1);
             Print("Name tools catergory: ", r2);
             Print("Name products start c: ", r3);
@@ -126,6 +125,8 @@ namespace LinqClass.DemoLinq
             Console.WriteLine(r12);
             Console.WriteLine(r13);
             Console.WriteLine("all products Agregrate sum: "+r14);
+
+
         }
     }
 }
